@@ -7,12 +7,66 @@
     <link rel="stylesheet" href="/assets/css/count.css">
   </head>
   <body>
-    <h1><%= @number %></h1>
-    <form action="/plus" method="post">
+    <form action="/create" method="post">
+      <input type="text" name="count" placeholder="カウンターの名前">
+      <input type="submit" value="カウンター作成">
+    </form>
+    <% @numbers.each do |number| %>
+    
+    <!-- 倍数確認変数定義 -->
+    <% if number.number % 15 == 0 && number.number != 0 %>
+      <% check = 15 %>
+    <% elsif number.number % 3 == 0 && number.number != 0 %>
+      <% check = 3 %>
+    <% elsif number.number % 5 == 0 && number.number != 0 %>
+      <% check = 5 %>
+    <% else %>
+      <% check = 0 %>
+    <% end %>
+    
+    <h2><%= number.title %></h2>
+    
+    <% if number.number.to_s.include?("3") || check == 3 %>
+    
+    <div style="border: 1px solid #f8b516; border-radius: 50%; width: 100px; height: 100px; line-height: 100px; text-align: center; margin: auto;">
+      <% case check 
+        when 15 then %>
+        <h1 style="color: #2a6d39;"><%= number.number %></h1>
+      <% when 3 then %>
+        <h1 style="color: #d01026;"><%= number.number %></h1>
+      <% when 5 then %>
+        <h1 style="color: #ec6c1f;"><%= number.number %></h1>
+      <% else %>
+        <h1 style="color: #edda15;"><%= number.number %></h1>
+      <% end %>
+    </div>
+    
+    <% else %>
+    
+    <div style="border: 1px solid #d8d8d8; border-radius: 50%; width: 100px; height: 100px; line-height: 100px; text-align: center; margin: auto;">
+      <% case check 
+         when 15 then %>
+        <h1 style="color: #2a6d39;"><%= number.number %></h1>
+      <% when 3 then %>
+        <h1 style="color: #d01026;"><%= number.number %></h1>
+      <% when 5 then %>
+        <h1 style="color: #ec6c1f;"><%= number.number %></h1>
+      <% else %>
+        <h1 style="color: #edda15;"><%= number.number %></h1>
+      <% end %>
+    </div>
+    
+    <% end %>
+    
+    <form action="/plus/<%= number.id %>" method="post">
       <input type="submit" value="+">
     </form>
-    <form action="/minus" method="post">
+    <form action="/minus/<%= number.id %>" method="post">
       <input type="submit" value="-">
     </form>
+    <form action="/clear/<%= number.id %>" method="post">
+      <input type="submit" value="clear">
+    </form>
+    <% end %>
   </body>
 </html>
